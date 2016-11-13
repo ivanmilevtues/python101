@@ -3,9 +3,9 @@ from sys import argv
 
 class Derivates:
     def __init__(self):
-        pass
+        self.polinom_list= []
 
-    def split_to_elements(self, polinom):
+    def split_to_elements(self, polynom):
         self.polinom_list = polinom.split('+')
         for index in range(len(self.polinom_list)):
             self.polinom_list[index] = self.polinom_list[index].split('x^')

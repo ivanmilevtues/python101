@@ -1,4 +1,4 @@
-def count_substring(haystack, needle):
+def count_substrings(haystack, needle):
     result = 0
     current_str = ""
     for index in range(0, len(haystack)):
@@ -8,7 +8,7 @@ def count_substring(haystack, needle):
             current_str = ""
     return result
 
-print(count_substring("Hey", "y"))
+# print(count_substring("Hey", "y"))
 
 
 def sum_matrix(m):
@@ -19,21 +19,21 @@ def sum_matrix(m):
 
     return result
 
-print(sum_matrix([[1, 2, 3], [4, 5, 6], [7, 8, 9]]))
-print(sum_matrix([[0, 0, 0], [0, 0, 0], [0, 0, 0]]))
+# print(sum_matrix([[1, 2, 3], [4, 5, 6], [7, 8, 9]]))
+# print(sum_matrix([[0, 0, 0], [0, 0, 0], [0, 0, 0]]))
 
 
 def nan_expand(num):
-    result = "\""
+    result = "" #"\""
     for i in range(0, num):
-        result += "Not a "
+        result += 'Not a '
     if num:
-        result += "NaN"
-    return result + "\""
+        result += 'NaN'
+    return result #+ "\""
 
-print(nan_expand(0))
-print(nan_expand(1))
-print(nan_expand(2))
+# print(nan_expand(0))
+# print(nan_expand(1))
+print(nan_expand(3))
 
 
 def prime_number(a):
@@ -45,7 +45,11 @@ def prime_number(a):
     return True
 
 
-def prime_fractorization(n):
+def getKey(item):
+    return item[0]
+
+
+def prime_factorization(n):
     result_dict = {}
     devider = 2
     while n > 1:
@@ -57,12 +61,12 @@ def prime_fractorization(n):
             n //= devider
             continue
         devider += 1
-    return tuple(result_dict.items())
+    return sorted(list(result_dict.items()), key=getKey)
 
-print(prime_fractorization(10))
-print(prime_fractorization(356))
-print(prime_fractorization(89))
-print(prime_fractorization(1000))
+# print(prime_factorization(10))
+print(prime_factorization(356))
+# print(prime_factorization(89))
+# print(prime_factorization(1000))
 
 
 def group(l):
@@ -78,7 +82,7 @@ def group(l):
         # print(result_list)
     return result_list
 
-print(group([1, 1, 1, 2, 3, 1, 1]))
+# print(group([1, 1, 1, 2, 3, 1, 1]))
 
 
 def max_consecutive(items):
@@ -93,7 +97,7 @@ def max_consecutive(items):
             overall_max = current_max
     return overall_max
 
-print(max_consecutive([1, 2, 3, 3, 3, 3, 4, 3, 3]))
+# print(max_consecutive([1, 2, 3, 3, 3, 3, 4, 3, 3]))
 
 
 def word_counter(matrix, word):
@@ -137,6 +141,6 @@ def diagonal(matrix):
     return diag
 
 
-print("Name" + str(word_counter([['i', 'v', 'a', 'n'], ['e', 'v', 'n', 'h'],
-                                 ['i', 'n', 'a', 'v'],['m', 'v', 'v', 'n'],
-                                 ['q', 'r', 'i', 't']], "ivan")))
+# print("Name" + str(word_counter([['i', 'v', 'a', 'n'], ['e', 'v', 'n', 'h'],
+#                                  ['i', 'n', 'a', 'v'],['m', 'v', 'v', 'n'],
+#                                  ['q', 'r', 'i', 't']], "ivan")))

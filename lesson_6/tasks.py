@@ -8,7 +8,7 @@ class Bill:
         self.amount = amount
 
     def __str__(self):
-        return "{0}$".format(self.amount)
+        return "A {0}$ bill".format(self.amount)
 
     def __repr__(self):
         return self.__str__()
@@ -23,7 +23,7 @@ class Bill:
         return self.__int__()
 
 
-class BillBatch:
+class BatchBill:
 
     def __init__(self, bill_list):
         self.bills = bill_list
@@ -69,7 +69,7 @@ def CashDesk_test():
     values = [10, 20, 50, 100, 100, 100]
     bills = [Bill(value) for value in values]
 
-    batch = BillBatch(bills)
+    batch = BatchBill(bills)
 
     desk = CashDesk()
 
@@ -84,7 +84,7 @@ def CashDesk_test():
 def batch_bill_test():
     values = [10, 20, 50, 100]
     bills = [Bill(value) for value in values]
-    batch = BillBatch(bills)
+    batch = BatchBill(bills)
     print(len(batch))
     print(batch.total())
     for bill in batch:

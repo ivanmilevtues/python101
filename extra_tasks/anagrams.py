@@ -1,4 +1,4 @@
-def are_anagrams(w_1, w_2):
+def is_anagram(w_1, w_2):
     word_1 = string_to_list(w_1)
     word_2 = string_to_list(w_2)
     if len(word_1) != len(word_2):
@@ -7,7 +7,8 @@ def are_anagrams(w_1, w_2):
         find_char = word_1[i]
         word_1[i] = '.'
         for k in range(len(word_2)):
-            if find_char == word_2[k]:
+            if find_char == word_2[k] or find_char == word_2[k].lower() or \
+             find_char == word_2[k].upper():
                 word_2[k] = '.'
     for i in word_1:
         if i != '.':
@@ -24,6 +25,6 @@ def string_to_list(st):
         result.append(char)
     return result
 
-print(are_anagrams("TOP_Coder", "Mitka ot bit"))
-print(are_anagrams("BRADE", "BEARD"))
-print(are_anagrams("silent", "listen"))
+print(is_anagram("TOP_Coder", "Mitka ot bit"))
+print(is_anagram("BRADE", "BeaRD"))
+print(is_anagram("silent", "listen"))

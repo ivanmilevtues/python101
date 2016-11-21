@@ -17,36 +17,36 @@ def is_number_balanced(number):
     else:
         return False
 
-print(is_number_balanced(9))
-print(is_number_balanced(4518))
-print(is_number_balanced(28471))
-print(is_number_balanced(1238033))
+# print(is_number_balanced(9))
+# print(is_number_balanced(4518))
+# print(is_number_balanced(28471))
+# print(is_number_balanced(1238033))
 
 
 def increasing_or_decreasing(seq):
     if seq[0] > seq[1]:
-        is_increasing = True
-    else:
         is_increasing = False
+    else:
+        is_increasing = True
     for i in range(1, len(seq)):
         if is_increasing:
-            if seq[i - 1] < seq[i]:
-                return "False"
+            if seq[i - 1] >= seq[i]:
+                return False
         else:
-            if seq[i - 1] > seq[i]:
-                return "False"
+            if seq[i - 1] <= seq[i]:
+                return False
     if is_increasing:
         return "Up!"
     else:
         return "Down!"
 
-print(increasing_or_decreasing([1, 2, 3, 4, 5, 6]))
-print(increasing_or_decreasing([5, 2, 3, 10, 5, 6]))
-print(increasing_or_decreasing([5, 4, 3, 2]))
-print(increasing_or_decreasing([1, 1, 1, 1]))
+# print(increasing_or_decreasing([1, 2, 3, 4, 5, 6]))
+# print(increasing_or_decreasing([5, 6, -10]))
+# print(increasing_or_decreasing([1, 1, 1, 1]))
+# print(increasing_or_decreasing([5, 4, 3, 2]))
 
 
-def get_largest_palindrom(num):
+def get_largest_palindrome(num):
     for i in range(1, num):
         num -= 1
         if check_palindrom(num):
@@ -67,36 +67,38 @@ def check_palindrom(num):
             return False
     return True
 
-print(get_largest_palindrom(99))
-print(get_largest_palindrom(252))
-print(get_largest_palindrom(994687))
-print(get_largest_palindrom(754649))
+# print(get_largest_palindrome(99))
+# print(get_largest_palindrome(252))
+# print(get_largest_palindrome(994687))
+# print(get_largest_palindrome(754649))
 
 
-def sum_of_numers(st):
-    list_index = 0
+def sum_of_numbers(st):
+    list_index = -1
     is_last_digit = False
     num_list = []
     result = 0
     for i in st:
         if i >= '0' and i <= '9':
-            # num += i
             if is_last_digit:
                 num_list[list_index] = num_list[list_index] * 10 + int(i)
                 is_last_digit = True
             else:
                 num_list.append(int(i))
+                list_index += 1
                 is_last_digit = True
         else:
+            # print(i)
             is_last_digit = False
+    print(num_list)
     for i in num_list:
         result += i
     return result
 
 
-print(sum_of_numers("ab125cd3"))
-print(sum_of_numers("ab12"))
-print(sum_of_numers("ab"))
+# print(sum_of_numbers("ab125cd3"))
+# print(sum_of_numbers("ab12"))
+# print(sum_of_numbers("1abc33xyz22"))
 
 
 def birthday_ranges(birthdays, bd_ranges):
@@ -111,8 +113,8 @@ def birthday_ranges(birthdays, bd_ranges):
                 result_list[index] += 1
     return result_list
 
-print("\n" + str(birthday_ranges([1, 2, 3, 4, 5],
-                                 [(1, 2), (1, 3), (1, 4), (1, 5), (4, 6)])))
+# print("\n" + str(birthday_ranges([1, 2, 3, 4, 5],
+#                                  [(1, 2), (1, 3), (1, 4), (1, 5), (4, 6)])))
 
 
 alphabet_dict = {
@@ -185,19 +187,20 @@ def numbers_to_message(pressed_sequence):
                     msg += key
     return msg
 
-print(numbers_to_message([1, 7, 7, 7, 8, 8, 2, 2, 9, 9, 9]))
-print(numbers_to_message([1, 4, 4, 4, 8, 8, 8, 6, 6, 6, 0, 3, 3,
-                          0, 1, 7, 7, 7, 7, 7, 2, 6, 6, 3, 2]))
+# print(numbers_to_message([1, 7, 7, 7, 8, 8, 2, 2, 9, 9, 9]))
+# print(numbers_to_message([1, 4, 4, 4, 8, 8, 8, 6, 6, 6, 0, 3, 3,
+#                           0, 1, 7, 7, 7, 7, 7, 2, 6, 6, 3, 2]))
 
 
-def message_to_number(message):
+def message_to_numbers(message):
     result_list = []
     last_digit_val = ''
     for char in message:
         for key in alphabet_dict:
+            if(char >= 'A' and char <= 'Z'):
+                result_list.append(1)
+                char = char.lower()
             if char == key:
-                # print(alphabet_dict[key][0] + " ?= " + last_digit_val)
-                # print(alphabet_dict[key][0] == last_digit_val)
                 if alphabet_dict[key][0] == last_digit_val:
                     result_list.append(-1)
                 for digit in alphabet_dict[key]:
@@ -205,7 +208,7 @@ def message_to_number(message):
                 last_digit_val = digit
     return result_list
 
-print(message_to_number("abc"))
-print(message_to_number("a"))
-print(message_to_number("Ivo e Panda"))
-print(message_to_number("aabbcc"))
+print(message_to_numbers("abc"))
+print(message_to_numbers("a"))
+print(message_to_numbers("Ivo e Panda"))
+# print(message_to_numbers("aabbcc"))

@@ -13,7 +13,6 @@ for indx in range(len(list_of_numbers)):
     list_of_numbers[indx] **= 2
 
 
-
 def function_1(list_of_numbers):
     for el in list_of_numbers:
         if el % 2 == 0:

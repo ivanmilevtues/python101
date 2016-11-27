@@ -1,4 +1,4 @@
-import pprint
+from sys import argv
 from collections import deque
 from copy import deepcopy
 
@@ -21,6 +21,7 @@ class TreeNode:
 class Tree:
     def __init__(self, root):
         self.root = TreeNode(root)
+        self.level = self.root.level
 
     def __take_element(self, value):
         stack = deque()
@@ -38,6 +39,7 @@ class Tree:
     def add_child(self, parent, child):
         node = self.__take_element(parent)
         node.children.append(TreeNode(child, node))
+        print("Node level = " + str(node.level))
 
     def find(self, value):
         return bool(self.__take_element(value))
@@ -64,6 +66,22 @@ class Tree:
 def swap(l, ind1, ind2):
     l[ind1], l[ind2] = l[ind2], l[ind1]
 
+
+# def movement_validator(char_list, index):
+#     curr_perm = deepcopy(char_list)
+#     if index >= 2 and curr_perm[index - 2] == ' ' and curr_perm[index] == '<':
+#         swap(curr_perm, index, index - 2)
+#         return curr_perm
+#     if index >= 1 and curr_perm[index - 1] == ' ' and curr_perm[index] == '<':
+#         swap(curr_perm, index, index - 1)
+#         return curr_perm
+#     if index <= len(curr_perm) - 3 and curr_perm[index + 2] == ' ' and curr_perm[index] == '>':
+#         swap(curr_perm, index, index + 2)
+#         return curr_perm
+#     if index <= len(curr_perm) - 2 and curr_perm[index + 1] == ' ' and curr_perm[index] == '>':
+#         swap(curr_perm, index, index + 1)
+#         return curr_perm
+#     return False
 
 def movement_validator(char_list, index):
     curr_permotation = deepcopy(char_list)
@@ -120,29 +138,44 @@ def generate_children(parent):
             generate_children(child)
 
 
+def add_elems(i, elem):
+    result = ''
+    while(i > 0):
+        result += elem
+        i -= 1
+    return result
+
+
+def start():
+    result = ""
+    result += add_elems(int(argv[1]), '>')
+    result += "_"
+    result += add_elems(int(argv[1]), '<')
+    return result
+
+
+def take_largest_key(dict):
+    keys = dict.keys()
+    return sorted(keys, reverse=True)[0]
+
+
 def main():
-    a = Tree(">>>_<<")
+    a = Tree(start())
     generate_children(a.root)
+
     result_dict = a.tree_levels()
-    print(result_dict)
-    current_node = result_dict[11][0].children[0]
-    solution = []
-    while current_node.parent:
-        solution.append(current_node.value)
-        current_node = current_node.parent
-    print(a.root.value)
-    for i in solution[::-1]:
-        print(i)
-    # print(result_dict[8][0].children[0].value)
-    # a.add_child(4, 5)
-    # a.add_child(10, 8)
-    # print(a.find(4))
-    # print(a.find(5))
-    # print(a.find(90))
-    # print(movement_validator(list("_<<><"), 1))
-    # print(movement_validator(list(">>_<<"), 0))
-    # print(movement_validator(list(">>_<<"), 1))
-    # print(movement_validator(list("<<_>>"), 3))
+    level = take_largest_key(result_dict)
+
+    for curr_node in result_dict[level]:
+        solution = []
+        solution.append(curr_node.children[0].value)
+        while curr_node.parent:
+            solution.append(curr_node.value)
+            curr_node = curr_node.parent
+        print(a.root.value)
+        for i in solution[::-1]:
+            print(i)
+        print('\n')
 
 
 if __name__ == '__main__':

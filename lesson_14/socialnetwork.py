@@ -87,7 +87,7 @@ class SocialNetowork:
         return False
 
     def take_paths(self, panda1, panda2, path=[]):
-        path = path + [panda1]
+        path.append(panda1)
         if panda1 == panda2:
             return [path]
         if panda1 not in self.connections:

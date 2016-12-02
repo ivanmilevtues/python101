@@ -60,7 +60,7 @@ class SocialNetowork:
     def make_friends(self, panda1, panda2):
         if not self.has_panda(panda1):
             self.add_panda(panda1)
-        elif not self.has_panda(panda2):
+        if not self.has_panda(panda2):
             self.add_panda(panda2)
         self.connections[panda1].append(panda2)
         self.connections[panda2].append(panda1)
@@ -69,25 +69,69 @@ class SocialNetowork:
         return True if panda2 in self.connections[panda1] else False
 
     def friends_of(self, panda):
-        return False if panda not in self.connections else self.connections[panda]
+        return False if panda not in self.connections \
+            else self.connections[panda]
 
-    def connection_level(self,)
+    def connection_level(self, panda1, panda2):
+        if not self.has_panda(panda1) or not self.has_panda(panda2):
+            return False
+        paths = self.take_paths(panda1, panda2)
+        if paths:
+            return len(sorted(paths)[0]) - 1
+        return -1
+
+    def are_connected(self, panda1, panda2):
+        is_path = self.connection_level(panda1, panda2)
+        if is_path != -1 and is_path:
+            return True
+        return False
+
+    def take_paths(self, panda1, panda2, path=[]):
+        path = path + [panda1]
+        if panda1 == panda2:
+            # print("Found em!")
+            # print([path])
+            return [path]
+        if panda1 not in self.connections:
+            # print("Empty")
+            return []
+        paths = []
+        for friend in self.connections[panda1]:
+            if friend not in path:
+                newpaths = self.take_paths(friend, panda2, path)
+                for newpath in newpaths:
+                    paths.append(newpath)
+        # print("Couldn't find anything.")
+        # print(paths)
+        return paths
+
 
 def main():
-    k = Panda("K", "k@k.com", "d")
-    i = Panda("sadsdK", "k@k.com", "dasdda")
+    ivo = Panda("Ivo", "Ivo@k.com", "male")
+    valio = Panda("Valio", "k@k.com", "male")
     kiko = Panda("Kiko", "kir4o@robopartans.com", "male")
-    print(k.get_name())
-    print(k.get_email())
-    print(k.get_gender())
+    chorbi = Panda("Lubo", "l@chr.com", "male")
+    dudev = Panda("Dedevian", "Dudevian@emo.com", "male")
+    misho = Panda("Misho", "misho@hidr0.com", "male")
+    lonely = Panda("4EverAlone", "nofrs@sad.com", "female")
+    # print(k.get_name())
+    # print(k.get_email())
+    # print(k.get_gender())
     a = SocialNetowork()
-    a.add_panda(k)
-    a.add_panda(i)
-    print(a.connections)
-    a.make_friends(i, kiko)
-    print(a.connections)
-    print(a.are_friends(i, k))
-    print(a.friends_of(i))
+    a.add_panda(ivo)
+    a.add_panda(valio)
+    a.add_panda(lonely)
+    # print(a.connections)
+    a.add_panda(dudev)
+    a.make_friends(misho, kiko)
+    a.make_friends(valio, kiko)
+    a.make_friends(kiko, ivo)
+    a.make_friends(ivo, chorbi)
+    print(a.connection_level(valio, ivo))
+    print(a.are_connected(chorbi, lonely))
+    # print(a.are_friends(i, k))
+    # print(a.connections)
+    # print(a.friends_of(i))
     # ivo = Panda("Ivo", "kkk", "panda")
 
 

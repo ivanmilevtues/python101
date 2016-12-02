@@ -89,11 +89,8 @@ class SocialNetowork:
     def take_paths(self, panda1, panda2, path=[]):
         path = path + [panda1]
         if panda1 == panda2:
-            # print("Found em!")
-            # print([path])
             return [path]
         if panda1 not in self.connections:
-            # print("Empty")
             return []
         paths = []
         for friend in self.connections[panda1]:
@@ -101,8 +98,6 @@ class SocialNetowork:
                 newpaths = self.take_paths(friend, panda2, path)
                 for newpath in newpaths:
                     paths.append(newpath)
-        # print("Couldn't find anything.")
-        # print(paths)
         return paths
 
 

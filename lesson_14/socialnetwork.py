@@ -1,4 +1,6 @@
+# interactive python debuger
 # Use BFS
+from collections import deque
 import re
 
 
@@ -42,10 +44,14 @@ class Panda:
                self.gender == other.gender
 
     def __hash__(self):
+        # It is good to calculate the hash from string in the class
         return hash(self.name) * hash(self.gender) * hash(self.email)
 
+    def __repr__(self):
+        return str(self)
 
-class SocialNetowork:
+
+class SocialNetwork:
     def __init__(self):
         self.connections = {}
 
@@ -53,6 +59,9 @@ class SocialNetowork:
         if self.has_panda(panda):
             raise "PandaAlreadyThere"
         self.connections[panda] = []
+
+    def take_pandas(self):
+        return list(self.connections.keys())
 
     def has_panda(self, panda):
         return True if panda in self.connections else False
@@ -66,7 +75,7 @@ class SocialNetowork:
         self.connections[panda2].append(panda1)
 
     def are_friends(self, panda1, panda2):
-        return True if panda2 in self.connections[panda1] else False
+        return panda2 in self.connections[panda1]
 
     def friends_of(self, panda):
         return False if panda not in self.connections \
@@ -86,6 +95,26 @@ class SocialNetowork:
                     paths.append(newpath)
         return paths
 
+    # Rado's solution for taking the shortest path in graph
+    # BFS
+    # Zapochvame ot nqkoi vryh kato go markirame che sme minali prez nego
+    # Vsichki direktni sysedi gi dobavqme v nqkakyv list
+    # imame Que i visited list
+    def are_connected(self, start: panda1, target: panda2):
+        queue = deque()
+        visited = set()
+        q.append((0, start))
+        visited.append(start)
+        while q:
+            level, current = q.popleft()
+            if current == target:
+                path = {key: value for key, value in variable}
+                return level
+            for neigh in self.connections[current]:
+                if neigh not in visited:
+                    q.append((level + 1, neigh))
+                    visited.add(neigh)
+
     def connection_level(self, panda1, panda2):
         if not self.has_panda(panda1) or not self.has_panda(panda2):
             return False
@@ -93,12 +122,6 @@ class SocialNetowork:
         if paths:
             return len(sorted(paths)[0]) - 1
         return -1
-
-    def are_connected(self, panda1, panda2):
-        is_path = self.connection_level(panda1, panda2)
-        if is_path != -1 and is_path:
-            return True
-        return False
 
     def how_many_gender_in_network(self, level, panda, gender):
         gender_num = 0
@@ -122,7 +145,7 @@ def main():
     # print(k.get_name())
     # print(k.get_email())
     # print(k.get_gender())
-    a = SocialNetowork()
+    a = SocialNetwork()
     a.add_panda(ivo)
     a.add_panda(valio)
     a.add_panda(lonely)

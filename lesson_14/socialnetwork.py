@@ -72,20 +72,6 @@ class SocialNetowork:
         return False if panda not in self.connections \
             else self.connections[panda]
 
-    def connection_level(self, panda1, panda2):
-        if not self.has_panda(panda1) or not self.has_panda(panda2):
-            return False
-        paths = self.take_paths(panda1, panda2)
-        if paths:
-            return len(sorted(paths)[0]) - 1
-        return -1
-
-    def are_connected(self, panda1, panda2):
-        is_path = self.connection_level(panda1, panda2)
-        if is_path != -1 and is_path:
-            return True
-        return False
-
     def take_paths(self, panda1, panda2, path=[]):
         path.append(panda1)
         if panda1 == panda2:
@@ -100,13 +86,37 @@ class SocialNetowork:
                     paths.append(newpath)
         return paths
 
+    def connection_level(self, panda1, panda2):
+        if not self.has_panda(panda1) or not self.has_panda(panda2):
+            return False
+        paths = self.take_paths(panda1, panda2)
+        if paths:
+            return len(sorted(paths)[0]) - 1
+        return -1
+
+    def are_connected(self, panda1, panda2):
+        is_path = self.connection_level(panda1, panda2)
+        if is_path != -1 and is_path:
+            return True
+        return False
+
+    def how_many_gender_in_network(self, level, panda, gender):
+        gender_num = 0
+        for user in self.connections:
+            print(user)
+            # print(self.are_connected(panda, user))
+            if self.connection_level(panda, user) == level:
+                if user.gender == gender:
+                    gender_num += 1
+        return gender_num
+
 
 def main():
     ivo = Panda("Ivo", "Ivo@k.com", "male")
     valio = Panda("Valio", "k@k.com", "male")
     kiko = Panda("Kiko", "kir4o@robopartans.com", "male")
     chorbi = Panda("Lubo", "l@chr.com", "male")
-    dudev = Panda("Dedevian", "Dudevian@emo.com", "male")
+    dudev = Panda("Dudevian", "Dudevian@emo.com", "male")
     misho = Panda("Misho", "misho@hidr0.com", "male")
     lonely = Panda("4EverAlone", "nofrs@sad.com", "female")
     # print(k.get_name())
@@ -122,8 +132,9 @@ def main():
     a.make_friends(valio, kiko)
     a.make_friends(kiko, ivo)
     a.make_friends(ivo, chorbi)
-    print(a.connection_level(valio, ivo))
+    print(a.connection_level(ivo, kiko))
     print(a.are_connected(chorbi, lonely))
+    print(a.how_many_gender_in_network(1, kiko, 'male'))
     # print(a.are_friends(i, k))
     # print(a.connections)
     # print(a.friends_of(i))

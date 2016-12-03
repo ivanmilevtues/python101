@@ -10,47 +10,47 @@ class Panda:
         return True if re.match("\w+@\w+.\w+", email) else False
 
     def __init__(self, name, email, gender):
-        self.name = name
+        self.name_ = name
         # print(Panda.__email_validation(email))
         if Panda.__email_validation(email):
-            self.email = email
+            self.email_ = email
         else:
             raise ValueError
-        self.email = email
-        self.gender = gender
+        self.email_ = email
+        self.gender_ = gender
 
-    def get_name(self):
-        return self.name
+    def name(self):
+        return self.name_
 
-    def get_email(self):
-        return self.email
+    def email(self):
+        return self.email_
 
-    def get_gender(self):
-        return self.gender
+    def gender(self):
+        return self.gender_
 
     def isMale(self):
-        return True if self.gender == 'Male' else False
+        return True if self.gender_ == 'male' else False
 
     def isFemale(self):
-        return True if self.gender == 'Female' else False
+        return True if self.gender_ == 'female' else False
 
     def __str__(self):
-        return "Name: {0}\nEmail: {1}\nGender: {2}".format(self.name,
-                                                           self.email,
-                                                           self.gender)
+        return "Name: {0}\nEmail: {1}\nGender: {2}".format(self.name_,
+                                                           self.email_,
+                                                           self.gender_)
 
     def __repr__(self):
         return str(self)
 
     def __eq__(self, other):
-        return self.name == other.name and self.email == other.email and \
-               self.gender == other.gender
+        return self.name_ == other.name_ and self.email_ == other.email_ and \
+               self.gender_ == other.gender_
 
     def __hash__(self):
-        return hash(self.name) * hash(self.gender) * hash(self.email)
+        return hash(self.name_) * hash(self.gender_) * hash(self.email_)
 
 
-class SocialNetowork:
+class PandaSocialNetwork:
     def __init__(self):
         self.connections = {}
 
@@ -104,14 +104,6 @@ class SocialNetowork:
                     paths[panda] = current
         return -1
 
-    def how_many_gender_in_network(self, level, panda, gender):
-        count = 0
-        for user in self.connections.keys():
-            if level == self.connection_level(panda, user) and \
-               gender == user.gender:
-                count += 1
-        return count
-
     def are_connected(self, panda1, panda2):
         is_path = self.connection_level(panda1, panda2)
         if is_path != -1 and is_path:
@@ -124,7 +116,7 @@ class SocialNetowork:
             print(user)
             # print(self.are_connected(panda, user))
             if self.connection_level(panda, user) == level:
-                if user.gender == gender:
+                if user.gender_ == gender:
                     gender_num += 1
         return gender_num
 
@@ -178,7 +170,7 @@ def main():
     # print(k.get_name())
     # print(k.get_email())
     # print(k.get_gender())
-    a = SocialNetowork()
+    a = PandaSocialNetwork()
     a.add_panda(ivo)
     a.add_panda(valio)
     a.add_panda(lonely)
@@ -192,7 +184,7 @@ def main():
     # print(a.how_many_gender_in_network(1, kiko, 'male'))
     print(a.are_friends(ivo, chorbi))
     a.save("test_save.json")
-    b = SocialNetowork()
+    b = PandaSocialNetwork()
     b.load("test_save.json")
     print(b.connections)
     print(b.are_connected(ivo, lonely))

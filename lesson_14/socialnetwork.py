@@ -1,6 +1,6 @@
-# interactive python debuger
 # Use BFS
 from collections import deque
+import json
 import re
 
 
@@ -10,48 +10,47 @@ class Panda:
         return True if re.match("\w+@\w+.\w+", email) else False
 
     def __init__(self, name, email, gender):
-        self.name = name
+        self.name_ = name
         # print(Panda.__email_validation(email))
         if Panda.__email_validation(email):
-            self.email = email
+            self.email_ = email
         else:
             raise ValueError
-        self.email = email
-        self.gender = gender
+        self.email_ = email
+        self.gender_ = gender
 
-    def get_name(self):
-        return self.name
+    def name(self):
+        return self.name_
 
-    def get_email(self):
-        return self.email
+    def email(self):
+        return self.email_
 
-    def get_gender(self):
-        return self.gender
+    def gender(self):
+        return self.gender_
 
     def isMale(self):
-        return True if self.gender == 'Male' else False
+        return True if self.gender_ == 'male' else False
 
     def isFemale(self):
-        return True if self.gender == 'Female' else False
+        return True if self.gender_ == 'female' else False
 
     def __str__(self):
-        return "Name: {0}\nEmail - {1}\nGender: {2}".format(self.name,
-                                                            self.email,
-                                                            self.gender)
-
-    def __eq__(self, other):
-        return self.name == other.name and self.email == other.email and \
-               self.gender == other.gender
-
-    def __hash__(self):
-        # It is good to calculate the hash from string in the class
-        return hash(self.name) * hash(self.gender) * hash(self.email)
+        return "Name: {0}\nEmail: {1}\nGender: {2}".format(self.name_,
+                                                           self.email_,
+                                                           self.gender_)
 
     def __repr__(self):
         return str(self)
 
+    def __eq__(self, other):
+        return self.name_ == other.name_ and self.email_ == other.email_ and \
+               self.gender_ == other.gender_
 
-class SocialNetwork:
+    def __hash__(self):
+        return hash(self.name_) * hash(self.gender_) * hash(self.email_)
+
+
+class PandaSocialNetwork:
     def __init__(self):
         self.connections = {}
 
@@ -59,9 +58,6 @@ class SocialNetwork:
         if self.has_panda(panda):
             raise "PandaAlreadyThere"
         self.connections[panda] = []
-
-    def take_pandas(self):
-        return list(self.connections.keys())
 
     def has_panda(self, panda):
         return True if panda in self.connections else False
@@ -75,53 +71,44 @@ class SocialNetwork:
         self.connections[panda2].append(panda1)
 
     def are_friends(self, panda1, panda2):
-        return panda2 in self.connections[panda1]
+        return True if panda2 in self.connections[panda1] else False
 
     def friends_of(self, panda):
         return False if panda not in self.connections \
             else self.connections[panda]
 
-    def take_paths(self, panda1, panda2, path=[]):
-        path.append(panda1)
-        if panda1 == panda2:
-            return [path]
-        if panda1 not in self.connections:
-            return []
-        paths = []
-        for friend in self.connections[panda1]:
-            if friend not in path:
-                newpaths = self.take_paths(friend, panda2, path)
-                for newpath in newpaths:
-                    paths.append(newpath)
-        return paths
-
-    # Rado's solution for taking the shortest path in graph
-    # BFS
-    # Zapochvame ot nqkoi vryh kato go markirame che sme minali prez nego
-    # Vsichki direktni sysedi gi dobavqme v nqkakyv list
-    # imame Que i visited list
-    def are_connected(self, start: panda1, target: panda2):
-        queue = deque()
-        visited = set()
-        q.append((0, start))
-        visited.append(start)
-        while q:
-            level, current = q.popleft()
-            if current == target:
-                path = {key: value for key, value in variable}
-                return level
-            for neigh in self.connections[current]:
-                if neigh not in visited:
-                    q.append((level + 1, neigh))
-                    visited.add(neigh)
-
     def connection_level(self, panda1, panda2):
-        if not self.has_panda(panda1) or not self.has_panda(panda2):
-            return False
-        paths = self.take_paths(panda1, panda2)
-        if paths:
-            return len(sorted(paths)[0]) - 1
+        if panda2 in self.connections[panda1]:
+            return 1
+        paths = {panda1: None}
+        q = deque()
+        visited = set()
+
+        q.append(panda1)
+        visited.add(panda1)
+
+        while q:
+            current = q.popleft()
+
+            if current == panda2:
+                path = []
+                while panda2:
+                    path.append(panda2)
+                    panda2 = paths[panda2]
+                return len(path) - 1
+
+            for panda in self.connections[current]:
+                if panda not in visited:
+                    visited.add(panda)
+                    q.append(panda)
+                    paths[panda] = current
         return -1
+
+    def are_connected(self, panda1, panda2):
+        is_path = self.connection_level(panda1, panda2)
+        if is_path != -1 and is_path:
+            return True
+        return False
 
     def how_many_gender_in_network(self, level, panda, gender):
         gender_num = 0
@@ -129,9 +116,47 @@ class SocialNetwork:
             print(user)
             # print(self.are_connected(panda, user))
             if self.connection_level(panda, user) == level:
-                if user.gender == gender:
+                if user.gender_ == gender:
                     gender_num += 1
         return gender_num
+
+    def save(self, filename):
+        data = {}
+
+        for key in self.connections.keys():
+            if str(key) not in data.keys():
+                data[str(key)] = []
+            for nei in self.connections[key]:
+                data[str(key)].append(str(nei))
+
+        with open(filename, "w") as file_json:
+            json.dump(data, file_json)
+
+    def make_panda(self, info_list):
+        name = info_list[0].split(': ')[1]
+        email = info_list[1].split(': ')[1]
+        gender = info_list[2].split(': ')[1]
+        return Panda(name, email, gender)
+
+    def load(self, filename):
+        # self.connections = {}
+        panda_list = []
+        data = {}
+        self.connections = {}
+        print(self.connections)
+
+        with open(filename, "r") as file_json:
+            data = json.load(file_json)
+
+        for key in data.keys():
+            info_list = key.split("\n")
+            cur_panda = self.make_panda(info_list)
+            for fr in data[key]:
+                info_list = fr.split("\n")
+                fr_cur_panda = self.make_panda(info_list)
+                self.make_friends(cur_panda, fr_cur_panda)
+            if cur_panda not in self.connections:
+                self.add_panda(cur_panda)
 
 
 def main():
@@ -145,7 +170,7 @@ def main():
     # print(k.get_name())
     # print(k.get_email())
     # print(k.get_gender())
-    a = SocialNetwork()
+    a = PandaSocialNetwork()
     a.add_panda(ivo)
     a.add_panda(valio)
     a.add_panda(lonely)
@@ -155,11 +180,15 @@ def main():
     a.make_friends(valio, kiko)
     a.make_friends(kiko, ivo)
     a.make_friends(ivo, chorbi)
-    print(a.connection_level(ivo, kiko))
-    print(a.are_connected(chorbi, lonely))
-    print(a.how_many_gender_in_network(1, kiko, 'male'))
-    # print(a.are_friends(i, k))
-    # print(a.connections)
+    print(a.connection_level(misho, ivo))
+    # print(a.how_many_gender_in_network(1, kiko, 'male'))
+    print(a.are_friends(ivo, chorbi))
+    a.save("test_save.json")
+    b = PandaSocialNetwork()
+    b.load("test_save.json")
+    print(b.connections)
+    print(b.are_connected(ivo, lonely))
+    print(b.how_many_gender_in_network(2, kiko, "male"))
     # print(a.friends_of(i))
     # ivo = Panda("Ivo", "kkk", "panda")
 

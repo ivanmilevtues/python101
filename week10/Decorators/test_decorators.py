@@ -23,6 +23,9 @@ class TestDecorator(unittest.TestCase):
             deposit(1)
             deposit(['a', 'b', 'c'])
             deposit((1, 'a'))
+            deposit(1, 'a')
+            deposit('a', 'a')
+            deposit(1, 1)
 
 if __name__ == '__main__':
     unittest.main()

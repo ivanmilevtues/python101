@@ -27,10 +27,6 @@ def deposit(name, money):
 def encrypt(num):
     def get_func(func):
         def char_shift(*args):
-            # sentence = func
-            # for indx in range(sentence):
-            #     if re.search('[a-z]'):
-            #         sentence[indx] = chr(ord(sentence[indx]) + num)
             sentence = list(func())
             result = ''
             for indx in range(len(sentence)):

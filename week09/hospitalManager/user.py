@@ -1,9 +1,4 @@
-from queries import *
-# from user_func import *
-from prettytable import PrettyTable
-
-
-class Doctor():
+class Patient():
 	def __init__(self, username, id_):
 		self.name = username
 		self.id = id_

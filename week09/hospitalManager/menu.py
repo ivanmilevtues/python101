@@ -1,87 +1,33 @@
-import sqlite3
-from settings import *
-import getpass
-from queries import *
-from doctor import Doctor
+from user_func import *
+from doctor_func import *
+from patient_func import *
 
-LOGGEDIN = 1
-LOGGEDOUT = 0
-
-db = sqlite3.connect(DB_NAME)
-db.row_factory = sqlite3.Row
-c = db.cursor()
-
-
-def login():
-	valid_username = False
-	valid_pass = False
-
-	username = input("Username: ")
-	password = getpass.getpass()
-	users = c.execute(SELECT_USERS)
-
-	for user in users:
-		if user['USERNAME'] == username:
-			valid_username = True
-
-			if user['PASSWORD'] == password:
-				valid_pass = True
-				c.execute(UPDATE_ACTIVE, (LOGGEDIN, user['id'], ))
-
-				if 'Dr.' in username:
-					Doctor(username, user['id'])
-	if not valid_pass:
-		if not valid_username:
-			print("No user with this username!")
-		else:
-			print("Wrong password!")
-
-	db.commit()
-	return True
-
-
-def register():
-	pass
-
-def exit():
-	users = c.execute(SELECT_USERS)
-	for user in users:
-		if user['IS_ACTIVE']:
-			c.execute(UPDATE_ACTIVE, (LOGGEDOUT, user['id'], ))
-			print("Successfuly log out")
-	db.commit()
-	return False
-
-
-def user_options():
-	options = """
-Welcome to Hospital Manager!
-Choose:
-1 to Log into the system
-2 to register as a new user
-3 for help main
-4 to exit the system. """
-	return options
-
-
-CALL_FUNCTION = {
+CALL_BASIC_FUNC = {
 	1: login,
 	2: register,
-	3: user_options,
+	3: start_options,
 	4: exit
 }
 
 
 def control_block():
-	print(user_options())
+	start_options()
+	user = None
 	while True:
 		asked_func = ' '
-		while asked_func not in ['1', '2', '3', '4'] :
+		while True :
 			asked_func = input()
-			print("Wrong input")
-
-		if not CALL_FUNCTION[int(asked_func)]():
+			if(asked_func not in ['1', '2', '3', '4']):
+				print("Wrong input")
+			else:
+				break
+		user = CALL_BASIC_FUNC[int(asked_func)]()
+		if not user:
 			break
+		if type(user) is Patient:
+			patient_main(user)
+		if type(user) is Doctor:
+			doctor_main(user)
 
 def main():
 	control_block()

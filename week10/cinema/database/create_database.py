@@ -15,6 +15,7 @@ def create_database():
     c.execute(CREATE_RESERVATION_TABLE)
     db.commit()
 
+
 def drop_tables():
     c.execute(DROP_MOVIE_TABLE)
     c.execute(DROP_PROJECTION_TABLE)

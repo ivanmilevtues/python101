@@ -29,3 +29,9 @@ UPDATE_ACTIVE = """
     SET ACTIVE = ?
     WHERE USERNAME = ?
 """
+
+SELECT_RESERVATIONS = """
+    SELECT *
+    FROM reservation as r
+    WHERE r.PROJECTION_ID=?;
+"""

@@ -1,6 +1,7 @@
 import sqlite3
 import re
 import getpass
+from logger import log_out
 from interface import *
 from validators import *
 from settings.general_settings import *
@@ -10,8 +11,6 @@ from queries.manage_db_queries import *
 db = sqlite3.connect(DB_NAME)
 db.row_factory = sqlite3.Row
 c = db.cursor()
-
-session_logged = False
 
 
 def parse_input(user_input):
@@ -28,11 +27,6 @@ def parse_input(user_input):
         func_args.append(args[indx])
 
     return func_args
-
-
-@user_exists(session_logged)
-def make_reservation():
-    pass
 
 
 def show_movies():
@@ -65,12 +59,17 @@ def print_main():
     print(MAIN_MENU)
 
 
-def logout():
-    pass
+@user_exists
+def make_reservation():
+    tickets = input("How many tickets do you want to buy: ")
+    show_movies()
+    movie_id = input("Select movie by id: ")
+    show_projections([movie_id])
+    projection_id = input("Select projection by id: ")
 
 
 def close_program():
-    logout()
+    log_out()
     exit()
 
 

@@ -1,5 +1,6 @@
 import re
 from logger import log_in
+from settings.general_settings import SharedVariables
 
 
 def args_validate(*args):
@@ -25,12 +26,13 @@ def args_validate(*args):
     return get_func
 
 
-def user_exists(session_logged, *args, **kwargs):
-    def get_func(func):
-        def exists(*args, **kwargs):
-            if session_logged:
-                return func
-            else:
-                return log_in
-        return exists
-    return get_func
+def user_exists(func, *args, **kwargs):
+    def exists(*args, **kwargs):
+        print(SharedVariables.sessiong_log)
+        if SharedVariables.sessiong_log:
+            return func()
+        else:
+            print("""You are not logged into the system.
+Would you please login:""")
+            return log_in()
+    return exists

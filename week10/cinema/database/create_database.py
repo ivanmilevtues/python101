@@ -52,12 +52,12 @@ def insert_reservations():
 
 
 def insert_users():
-    users = [("Rositsa Zlateva", "1234567"),
-             ("Slavayana Monkova", "1234567890"),
-             ("Radoslav Georgiev", "1234567890"),
-             ("Krasimira Badova", "1234567890"),
-             ("Kiril Hristov", "1234567890"),
-             ("Vladimir Delchev", "1234567890")]
+    users = [("Rositsa Zlateva", "1234567", 0),
+             ("Slavayana Monkova", "1234567890", 0),
+             ("Radoslav Georgiev", "1234567890", 0),
+             ("Krasimira Badova", "1234567890", 0),
+             ("Kiril Hristov", "1234567890", 0),
+             ("Vladimir Delchev", "1234567890", 0)]
     c.executemany(INSERT_USER, users)
 
 

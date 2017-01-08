@@ -1,4 +1,5 @@
 import re
+from logger import *
 
 
 def args_validate(*args):
@@ -21,4 +22,15 @@ def args_validate(*args):
                             print("Second argument has wrong format!")
                             return False
             return func()
+    return get_func
+
+
+def user_exists(session_logged, *args, **kwargs):
+    def get_func(func):
+        def exists(session_logged, *args, **kwargs):
+            if session_logged:
+                return func
+            else:
+                return log_in
+        return exists
     return get_func

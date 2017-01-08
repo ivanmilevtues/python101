@@ -2,7 +2,7 @@ import sqlite3
 import re
 import getpass
 from interface import *
-# from validators import *
+from validators import *
 from settings.general_settings import *
 from queries.manage_db_queries import *
 
@@ -30,7 +30,7 @@ def parse_input(user_input):
     return func_args
 
 
-# @user_exists(session_logged)
+@user_exists(session_logged)
 def make_reservation():
     pass
 

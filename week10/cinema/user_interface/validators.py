@@ -1,5 +1,5 @@
 import re
-from logger import *
+from logger import log_in
 
 
 def args_validate(*args):
@@ -27,7 +27,7 @@ def args_validate(*args):
 
 def user_exists(session_logged, *args, **kwargs):
     def get_func(func):
-        def exists(session_logged, *args, **kwargs):
+        def exists(*args, **kwargs):
             if session_logged:
                 return func
             else:

@@ -1,5 +1,7 @@
 from queries.manage_db_queries import SELECT_USERS, UPDATE_ACTIVE
+from settings.general_settings import DB_NAME
 import getpass
+import sqlite3
 
 db = sqlite3.connect(DB_NAME)
 db.row_factory = sqlite3.Row

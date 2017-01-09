@@ -1,5 +1,8 @@
 # Decorators
+import time
+from functools import wraps
 import re
+from datetime import datetime
 
 
 def accepts(*types):
@@ -47,11 +50,36 @@ def encrypt(num):
     return get_func
 
 
+def log(file):
+    def get_func(func):
+        @wraps(func)
+        def decorated(*args, **kvargs):
+            with open(file, "a") as f:
+                f.write(str(datetime.now()))
+            return func(args, kvargs)
+        return decorated
+    return get_func
+
+
+@log('log.txt')
 @encrypt(2)
 def get_low():
     return "Get get get low"
 
+    
+def performance(file):
+    def get_func(func):
+        def decorated(*args, **kvargs):
+            start_time = time.time()
+            func()
+            end_time = time.time()
+            with open(file, "a") as f:
+                f.write(str(end_time - start_time))
+            f.close()
+        return decorated
+    return get_func
 
+@performance('log.txt')
 def main():
     # print(say_hello("Ivan"))
     # print(deposit("Kik", '3'))

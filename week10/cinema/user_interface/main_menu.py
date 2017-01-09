@@ -1,12 +1,13 @@
 import sqlite3
 import re
 import getpass
-from logger import log_out
+from logger import *
 from interface import *
 from validators import *
 from settings.general_settings import *
 from queries.manage_db_queries import *
-
+from reservation import *
+from movie import *
 
 db = sqlite3.connect(DB_NAME)
 db.row_factory = sqlite3.Row
@@ -29,43 +30,8 @@ def parse_input(user_input):
     return func_args
 
 
-def show_movies():
-    movies = c.execute(SELECT_MOVIES)
-    print("Movie:")
-    for movie in movies:
-        print("[{0}] - {1} ({2})".format(movie['ID'], movie['NAME'],
-                                         movie['RATING']))
-
-
-# @args_validate
-def show_projections(*argv):
-    args = argv[0]
-    if len(args) > 1:
-        projections = c.execute(SELECT_PROJECTIONS_FOR_DATE,
-                                [args[0], args[1], ])
-        print("Projections for: {0} on {1}".format(args[0], args[1]))
-    else:
-        projections = c.execute(SELECT_PROJECTIONS, [args[0], ])
-        print("Projections for: {0}".format(args[0]))
-
-    for projection in projections:
-        print("[{0}] - {1} {2} ({3})".format(projection['ID'],
-                                             projection['DATE_'],
-                                             projection['TIME_'],
-                                             projection['TYPE']))
-
-
 def print_main():
     print(MAIN_MENU)
-
-
-@user_exists
-def make_reservation():
-    tickets = input("How many tickets do you want to buy: ")
-    show_movies()
-    movie_id = input("Select movie by id: ")
-    show_projections([movie_id])
-    projection_id = input("Select projection by id: ")
 
 
 def close_program():
@@ -77,6 +43,9 @@ FUNC_DICT = {
     "show movie projection": show_projections,
     "show movies": show_movies,
     "make reservation": make_reservation,
+    "cancel reservation": cancel_reservation,
+    "log in": log_in,
+    "register": register,
     "help": print_main,
     "exit": close_program
 }

@@ -1,7 +1,11 @@
-from queries.manage_db_queries import SELECT_USERS, UPDATE_ACTIVE
+from queries.manage_db_queries import SELECT_USERS, UPDATE_ACTIVE, INSERT_USER
 from settings.general_settings import DB_NAME, SharedVariables
+from validators import *
 import getpass
 import sqlite3
+import base64
+import hashlib
+import re
 
 db = sqlite3.connect(DB_NAME)
 db.row_factory = sqlite3.Row
@@ -9,6 +13,30 @@ c = db.cursor()
 
 LOGGEDIN = 1
 LOGGEDOUT = 0
+
+
+def hash_password(func):
+    def hasher(passw, *args, **kwargs):
+        t_sha = hashlib.sha512()
+        password = base64.b64encode(t_sha.digest())
+        return func(passw)
+    return hasher
+
+
+@hash_password
+@validate_passw
+def set_password(passw):
+    return passw
+
+
+def register():
+    username = input("Pick username: ")
+    password = getpass.getpass(prompt="Pick password: ")
+    password = set_password(password)
+    c.execute(INSERT_USER, [username, password, LOGGEDOUT])
+    db.commit()
+    print("Registered successfully!")
+    print("Now you can log in.")
 
 
 def log_in():
@@ -23,6 +51,8 @@ def log_in():
                 db.commit()
                 print("Successfully logged in the system!")
                 SharedVariables.sessiong_log = True
+                SharedVariables.user_id = user['ID']
+                SharedVariables.username = user['USERNAME']
                 print(SharedVariables.sessiong_log)
                 return True
             else:

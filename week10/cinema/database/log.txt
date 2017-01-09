@@ -1,0 +1,5 @@
+2017-01-09 11:30:55.376334 User with id: 6 reserved 2 tickets.
+2017-01-09 11:40:41.553217 User with id: 6 reserved 3 tickets.
+2017-01-09 11:51:30.804253 User with id: 6 reserved 2 tickets.
+2017-01-09 12:03:22.734006 User with id: 6 reserved 2 tickets.
+2017-01-09 12:08:46.428681 User with id: 6 reserved 1 tickets.

@@ -35,3 +35,18 @@ SELECT_RESERVATIONS = """
     FROM reservation as r
     WHERE r.PROJECTION_ID=?;
 """
+
+INSERT_RESERVATION = """
+    INSERT INTO reservation (ROW, COL, USER_ID, PROJECTION_ID)
+    VALUES (?, ?, ?, ?);
+"""
+
+DELETE_RESERVATION = """
+    DELETE FROM reservation
+    WHERE USER_ID = ?;
+"""
+
+INSERT_USER = """
+    INSERT INTO USER (USERNAME, PASSWORD, ACTIVE)
+    VALUES (?, ?, ?)
+"""

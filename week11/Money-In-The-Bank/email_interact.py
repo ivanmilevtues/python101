@@ -16,7 +16,8 @@ def generate_TAN_code(user):
     msg = "Your TAN codes are:\n"
 
     if user.set_tan_codes(tan_list):
-        send_mail(user.get_email(), msg)
+        # send_mail(user.get_email(), msg)
+        print(tan_list)
 
 
 def send_mail(reciever, msg):

@@ -1,6 +1,3 @@
-# TODO
-# Make the printing matrix and you will be ok!
-# Update Querry too.
 from queries.manage_db_queries import SELECT_RESERVATIONS, INSERT_RESERVATION, DELETE_RESERVATION
 from settings.general_settings import DB_NAME, SharedVariables
 from movie import *

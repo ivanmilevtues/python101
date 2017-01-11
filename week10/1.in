@@ -1,4 +1,4 @@
 f :: String -> Int
 g :: Int -> String
 
-f . f
+f . g

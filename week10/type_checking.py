@@ -6,13 +6,13 @@ def check_name(func_name):
 	if re.search("\W+", func_name):
 		return False
 
-	if not func_name.islower():
+	if not re.match(r'[a-z]', func_name):
 		return False
 	return True
 
 
 def validate(func_def):
-	func_def = func_def[:-1]
+	func_def = func_def[:-1] if func_def[-1] == '\n' else func_def
 	func_elements = func_def.split(' ')
 
 	if not check_name(func_elements[0]):
@@ -20,8 +20,8 @@ def validate(func_def):
 
 	for el in func_elements:
 		if el != '::' and el != '->' and el != '.':
-			if re.search("\W+|\[\]", el):
-				print(el)
+			if not re.search(r"/(\[\w+\])/g", el) and not re.search(r"\w+", el):
+
 				return False
 	return True
 

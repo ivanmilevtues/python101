@@ -17,15 +17,15 @@ CREATE_QUERY = """
 
 
 UPDATE_SQL = """
-    UPDATE clients 
+    UPDATE clients
     SET message = ?
     WHERE id = ?
 """
 
 
-INSERT_SQL = """
-    INSERT INTO clients (username, password)
-    VALUES (?, ?)
+INSERT_USER = """
+    INSERT INTO clients (username, password, email)
+    VALUES (?, ?, ?)
 """
 
 
@@ -57,5 +57,11 @@ BAN_FOR_5min = """
 TAKE_EMAIL = """
     SELECT  email
     FROM clients
+    WHERE username = ?
+"""
+
+UPDATE_BALANCE = """
+    UPDATE clients
+    SET balance = ?
     WHERE username = ?
 """

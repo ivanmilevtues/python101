@@ -13,11 +13,14 @@ def generate_TAN_code(user):
     tan_list = []
     for _ in range(10):
         tan_list.append(generate_new_pass(size=32))
+
     msg = "Your TAN codes are:\n"
+    for tan in tan_list:
+        msg += str(tan) + "\n"
 
     if user.set_tan_codes(tan_list):
-        # send_mail(user.get_email(), msg)
-        print(tan_list)
+        send_mail(user.get_email(), msg)
+        # print(tan_list)
 
 
 def send_mail(reciever, msg):
@@ -43,6 +46,7 @@ def reset_password():
     change_pass(new_pass, user)
 
     send_mail(email, msg)
+
 
 if __name__ == '__main__':
     send_mail()

@@ -1,6 +1,4 @@
 import sqlite3
-import re
-import getpass
 from logger import *
 from interface import *
 from validators import *

@@ -34,7 +34,7 @@ class Client():
     def set_tan_codes(self, new_tan_codes):
         if len(self.__tan_codes):
             print("Sorry you have {0} TAN codes left".format(
-                                                    len(self.__tan_codes)))
+                len(self.__tan_codes)))
             return False
         else:
             self.__tan_codes = new_tan_codes

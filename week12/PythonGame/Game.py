@@ -1,5 +1,7 @@
 # TODO
 # Find way for aSync input!
+# Ask why + is not working!
+# Add the log system
 
 from random import randint
 from time import sleep

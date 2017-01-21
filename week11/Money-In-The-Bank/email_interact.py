@@ -31,7 +31,7 @@ def send_mail(reciever, msg):
     server.sendmail("ivanmilevtues@gmail.com", reciever, msg)
     server.quit()
 
-
+m
 def reset_password():
     user = input("Username:$$$>")
     emails = cursor.execute(TAKE_EMAIL, [user, ])

@@ -1,12 +1,12 @@
+from fileds import Field
 from datetime import datetime
 
 
 class SerializerMeta(type):
     def __new__(cls, name, bases, clsdict):
         fields = {}
-        print(name)
         for attr, value in clsdict.items():
-            if not callable(value) and not attr.startswith('__'):
+            if isinstance(value, Field):
                 fields[attr] = value
 
         for attr, _ in fields.items():
@@ -19,55 +19,26 @@ class SerializerMeta(type):
 
 
 class Serializer(metaclass=SerializerMeta):
-    def __init__(self):
-        for attr, value in self._declared_fields.items():
-            setattr(self, attr, value)
+    def __init__(self, instatnce):
+        self._object = instatnce
+        self._called_validation = False
 
+    def is_valid(self):
+        valid = True
 
-class EmailField():
-    pass
+        for field_name, field in self._declared_fields.items():
+            if not field.validate(getattr(self._object, field_name)):
+                valid = False
+                break
 
+        self._called_validation = True
 
-class CharField():
-    pass
+        return valid
 
+    @property
+    def data(self):
+        if not self._called_validation:
+            raise Exception('.is_valid() wasn\'t called!')
 
-class DateTimeField():
-    pass
-
-
-class Comment(object):
-    def __init__(self, email, content, created_at=None):
-        self.email = email
-        self.content = content
-
-        if created_at is None:
-            created_at = datetime.now()
-
-        self.created_at = created_at
-
-
-class CommentSerializer(Serializer):
-    email = EmailField()
-    content = CharField()
-    created_at = DateTimeField()
-
-    def __init__(self, comment):
-        self.comment = comment
-
-
-comment = Comment(email='radorado@hakbulgaria.com',
-                  content='wie naistina li hakvate?')
-
-serializer = CommentSerializer(comment)
-
-print(vars(serializer))
-# print(serializer.is_valid()) # True
-# print(serializer.data)
-"""
-{
-  "email": "radorado@hackbulgaria.com",
-  "content": "wie naistina li hakvate?",
-  "created_at": "'2017-01-20T13:43:10.704846'"
-}
-"""
+        return  { field_name: field.transform(getattr(self._object, field_name))
+                  for field_name, field in self._declared_fields.items()}

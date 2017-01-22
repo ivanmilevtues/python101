@@ -1,6 +1,4 @@
 from random import randint
-from time import sleep
-import os
 
 from collections import deque
 from EmptyCell import EmptyCell
@@ -42,13 +40,6 @@ class Python:
             move_by_x = 1
 
         old_head = self.body[0]
-        # print(old_head.get_x() + move_by_x)
-        # print(old_head.get_y() + move_by_y)
-        # new_head_pos = Vector2D(old_head.get_x() + move_by_x,
-        #                         old_head.get_y() + move_by_y)
-        # print(new_head_pos)
-        # input('')
-        # new_head = SnakeHead(new_head_pos)
         new_head = SnakeHead(Vector2D(old_head.get_x() + move_by_x,
                                       old_head.get_y() + move_by_y))
         self.body.appendleft(new_head)
@@ -63,8 +54,8 @@ class Python:
                                             last_cell.get_y()))
             self.game.set_cell(reset_cell)
         else:
-            self.game.set_cell(Flower(Vector2D(randint(0, 15),
-                                               randint(0, 15))))
+            self.game.set_cell(Flower(Vector2D(randint(0, 14),
+                                               randint(0, 14))))
         self.refresh_snake()
 
     def refresh_snake(self):

@@ -23,7 +23,8 @@ class GameWorld():
     def validate_movement(self, x, y):
         if x < 0 or y < 0:
             raise IndexError
-        if x >= len(self.matrix) or y >= len(self.matrix):
+        if x > len(self.matrix) or y > len(self.matrix):
+            print(x, y)
             raise IndexError
 
     @staticmethod
@@ -38,5 +39,4 @@ class GameWorld():
 
     def set_cell(self, cell):
         self.validate_movement(cell.get_x(), cell.get_y())
-
         self.matrix[cell.get_y()][cell.get_x()] = cell

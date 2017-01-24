@@ -6,7 +6,7 @@ import random
 
 
 def hash_password(passw):
-    t_sha = hashlib.sha512()
+    t_sha = hashlib.sha512(passw.encode()).hexdigest()
     passw = base64.b64encode(t_sha.digest())
     return passw
 

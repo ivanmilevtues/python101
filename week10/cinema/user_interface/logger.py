@@ -5,7 +5,7 @@ import getpass
 import sqlite3
 import base64
 import hashlib
-import re
+
 
 db = sqlite3.connect(DB_NAME)
 db.row_factory = sqlite3.Row
@@ -17,8 +17,8 @@ LOGGEDOUT = 0
 
 def hash_password(func):
     def hasher(passw, *args, **kwargs):
-        t_sha = hashlib.sha512()
-        password = base64.b64encode(t_sha.digest())
+        t_sha = hashlib.sha512(passw.encode()).hexdigest()
+        passw = base64.b64encode(t_sha.digest())
         return func(passw)
     return hasher
 

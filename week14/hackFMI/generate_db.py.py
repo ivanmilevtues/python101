@@ -1,3 +1,4 @@
+from copy import deepcopy
 from sqlalchemy import create_engine
 from sqlalchemy.orm import sessionmaker
 
@@ -27,10 +28,14 @@ def push_teams():
                        members_needed_desc=elem['members_needed_desc'],
                        room=elem['room'],
                        place=elem['place'])
+
         for t in elem['technologies_full']:
-            s.technologies_full = session.query(SkillList)\
+            k = deepcopy(s)
+            k.technologies_full = session.query(SkillList)\
                                          .filter(SkillList.name == t["name"])\
-                                         .one().id
+                                         .first().id
+            session.add(k)
+        if not s.technologies_full:
             session.add(s)
         session.commit()
 
@@ -41,12 +46,19 @@ def push_mentors():
         m = MentorList(name=elem['name'],
                        description=elem['description'],
                        picture=elem['picture'])
+
         for team in elem['teams']:
-            m.teams = session.query(PublicTeam)\
-                             .filter(PublicTeam.id == team['name'])\
-                             .one().id
-            session.add(m)
+            mentor_team = deepcopy(m)
+            mentor_team.teams = session.query(PublicTeam)\
+                                       .filter(PublicTeam.name ==
+                                               team['name'])\
+                                       .first()
+            if mentor_team.teams:
+                mentor_team.teams = mentor_team.teams.id
+
+            session.add(mentor_team)
             team_add = True
+
         if not team_add:
             session.add(m)
         session.commit()

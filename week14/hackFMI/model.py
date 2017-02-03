@@ -20,6 +20,11 @@ class PublicTeam(Base):
     room = Column(String)
     place = Column(String)
 
+    def __str__(self):
+        return "name{0}, technologies_full {1}".format(PublicTeam.name,
+                                                       PublicTeam
+                                                       .technologies_full)
+
 
 class MentorList(Base):
     __tablename__ = 'mentors'

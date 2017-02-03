@@ -1,5 +1,5 @@
 from sqlalchemy import Column, Integer, String, Float, ForeignKey
-from start import Base
+from models.start import Base
 
 
 class Movies(Base):

@@ -1,4 +1,4 @@
-from queries.manage_db_queries import SELECT_USERS, UPDATE_ACTIVE, INSERT_USER
+from queries.manage_db_queries import INSERT_USER, SELECT_USERS, UPDATE_ACTIVE
 from settings.general_settings import DB_NAME, SharedVariables
 from validators import *
 import getpass

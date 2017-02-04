@@ -1,5 +1,6 @@
 from prettytable import PrettyTable
 from models.tables import Movies, Projections, Users, Reservations
+from settings import ROWS, COLS, SharedValues
 
 from sqlalchemy import create_engine
 from sqlalchemy.orm import sessionmaker
@@ -33,3 +34,32 @@ def show_movie_projection(*args, **kwargs):
     for p in projections:
         table.add_row([p.id, p.movie_id, p.type, p.date, p.time])
     print(table)
+
+
+def check_for_user(username, password):
+    user = session.query(Users).filter(Users.username == username,
+                                       Users.password == password).first()
+    if user:
+        return user
+    else:
+        return False
+
+
+def give_taken_spots(projection):
+    return session.query(Reservations)\
+                  .filter(Reservations.projection_id == projection).all()
+
+
+def give_free_spots(projection):
+    return ROWS * COLS - sum(1 for spot in give_taken_spots(projection))
+
+
+def commit_reservation(seats, projection):
+    for seat in seats:
+        session.add(
+            Reservations(user_id=SharedValues.user_logged.id,
+                         projection_id=projection,
+                         row=seat[0],
+                         col=seat[1]))
+
+    session.commit()

@@ -1,13 +1,12 @@
 from settings import SharedValues, COLS, ROWS, FREE_SEAT, TAKEN_SEAT
 from controllers.sign import log_in
 from controllers.db_manager import show_movies, show_movie_projection,\
-    give_free_spots, give_taken_spots, commit_reservation
+    give_free_spots, give_taken_spots, commit_reservation, delete_reservation
+from controllers.validators import logged
 
 
+@logged
 def make_reservation():
-    if not SharedValues.user_logged:
-        log_in()
-
     while True:
         tickets = int(input('> How many tickets you want: '))
         show_movies()
@@ -21,15 +20,14 @@ def make_reservation():
     salon = show_movie_theater(projection)
 
     seats = []
-    # Make the shit tier do while... (while if)
     for _ in range(tickets):
-        row = int(input('> Select row: '))
-        col = int(input('> Select column: '))
-        while check_if_free(salon, row, col):
-            print('Select again those spots were taken')
+        while True:
             row = int(input('> Select row: '))
             col = int(input('> Select column: '))
-        seats.append((row, col))
+            if not check_if_free(salon, row, col):
+                break
+            print('Select again those spots were taken')
+        s.append((row, col))
 
     commit_reservation(seats, projection)
 
@@ -62,3 +60,9 @@ def print_matrix(matrix):
 
 def check_if_free(matrix, row, col):
     return matrix[row][col] == TAKEN_SEAT
+
+
+@logged
+def cancel_reservation():
+    delete_reservation(SharedValues.user_logged)
+    print('Reservation canceled!')

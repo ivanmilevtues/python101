@@ -63,3 +63,9 @@ def commit_reservation(seats, projection):
                          col=seat[1]))
 
     session.commit()
+
+
+def delete_reservation(name):
+    usr = session.query(Users).filter(Users.name == name).first()
+    session.query(Reservations).filter(Reservations.user_id == usr.id).delete()
+    session.commit()

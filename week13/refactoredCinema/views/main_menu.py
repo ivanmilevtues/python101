@@ -1,8 +1,8 @@
-from interface import main_menu
+from views.interface import main_menu
 from controllers.input_parser import InputParser
 from controllers.db_manager import show_movies, show_movie_projection
 from controllers.sign import log_in
-from controllers.reservation import make_reservation
+from controllers.reservation import make_reservation, cancel_reservation
 
 
 def print_menu(*args, **kwargs):
@@ -13,7 +13,7 @@ CALL_MAIN_FUNC = {
     "show movies": show_movies,
     "show movie projections": show_movie_projection,
     "make reservation": make_reservation,
-    # "cancel reservation": cancel_reservation,
+    "cancel reservation": cancel_reservation,
     "log in": log_in,
     "help": print_menu,
     "exit": exit

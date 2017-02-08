@@ -1,0 +1,26 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Courses</title>
+</head>
+<body>
+    <div align="center">
+        <table border="2">
+        <tr>
+            <th>Course Name</th>
+            <th>Description</th>
+            <th>Start Date</th>
+            <th>End Date</th>
+            <th>Approximate Duration</th>
+        </tr>
+        {% for course in courses%}
+        <td>{{ course.name }}</td>
+        <td>{{ course.description }}</td>
+        <td>{{ course.start_date }}</td>
+        <td>{{ course.end_date }}</td>
+        <td>{{ course.duration }}</td>
+        {% endfor %}
+        </table>
+    </div>
+</body>
+</html>

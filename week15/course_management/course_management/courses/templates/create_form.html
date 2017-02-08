@@ -1,0 +1,27 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Create Object</title>
+</head>
+<body>
+<form method="POST" action="">
+    {% csrf_token %}
+    Course Name: <br>
+    <input type="text" name="course_name">
+    <br>
+    Description: <br>
+    <input type="text" name="description">
+    <br>
+    Start date: <br>
+    <input type="date" name="start_date">
+    <br>
+    End date: <br>
+    <input type="date" name="end_date">
+    <br>
+    <input type="submit" value="Submit!">
+    {% if object_added %}
+        <p>Your course has been added</p>
+    {% endif %}
+</form>
+</body>
+</html>

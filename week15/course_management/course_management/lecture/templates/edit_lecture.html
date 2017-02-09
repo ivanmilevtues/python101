@@ -1,26 +1,26 @@
 <!DOCTYPE html>
 <html>
 <head>
-    <title>Edit Lecture</title>
+    <title>Create Lecture</title>
 </head>
 <body>
 <form method="POST" action="">
     {% csrf_token %}
-    Name: <br>
+    Current lecture name: {{ lecture.name }} <br>
     <input type="text" name="name">
     <br>
-    Course: <br>
+    Current lecture course: {{ lecture.course.name }} <br>
     <input type="text" name="course">
     <br>
-    Week: <br>
+    Current lecture week: {{ lecture.week }} <br>
     <input type="text" placeholder='Week01' name="week">
     <br>
-    URL: <br>
+    Current lecture URL: {{ lecture.url }} <br>
     <input type="text" placeholder='www.smth.com' name="url">
     <br>
     <input type="submit" value="Submit!">
     {% if object_added %}
-        <p>Your lecture has been added</p>
+        <p>Your lecture has been edited</p>
     {% endif %}
 </form>
 </body>

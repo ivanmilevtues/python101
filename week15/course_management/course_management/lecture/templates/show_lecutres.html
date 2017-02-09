@@ -1,0 +1,22 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Lectures</title>
+</head>
+<body>
+<table border="2" align="center">
+    <tr>
+        <th>Name</th>
+        <th>Week</th>
+        <th>URL</th>
+        <th>Course</th>
+    </tr>
+    <tr>
+        <td>{{ lecture.name }}</td>    
+        <td>{{ lecture.week }}</td>
+        <td>{{ lecture.url }}</td>
+        <td>{{ lecture.course.name }}</td>
+    </tr>
+</table>
+</body>
+</html>

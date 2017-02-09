@@ -1,0 +1,17 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Show Course</title>
+</head>
+<body>
+    <h1>Course Name: {{ course.name }}</h1>
+    <p>Desctiption: {{ course.description }}</p>
+    <p>Start Time: {{ course.start_date }}</p>
+    <p>End Time: {{ course.end_date }}</p>
+    <p>Duration: {{ course.duration }}</p>
+    <h2>Lectures:</h2>
+    {% for lecture in lectures %}
+        <p>Name: {{ lecture.name }}, Week: {{ lecture.week }}, URL: {{ lecture.url }}</p>
+    {% endfor %}
+</body>
+</html>

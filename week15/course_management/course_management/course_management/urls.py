@@ -23,5 +23,9 @@ urlpatterns = [
     url(r'^admin/', admin.site.urls),
     url(r'^$', course_view.show_courses, name='show_courses'),
     url(r'^course/new$', course_view.add_course, name='add_course'),
+    url(r'^course/edit/(?P<course_name>\w+)/$', course_view.edit_course),
+    url(r'^course/(?P<course_name>\w+)/$', course_view.show_course),
     url(r'^lecture/new$', lecture_view.add_lecture, name='add_lecture'),
+    url(r'^lecture/edit/(?P<lecture_id>\w+)/', lecture_view.edit_lecture),
+    url(r'^lecture/(?P<lecture_id>\w+)/$', lecture_view.show_lectures),
 ]

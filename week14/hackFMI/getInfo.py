@@ -1,6 +1,6 @@
 import requests
 
-mentors = requests.get("https://hackbulgaria.com/hackfmi/api/mentors/")
+mentors = requests.get("https://hackbulgaria.com/hackfmi/api/mentors/").json()
 public_teams = requests.\
-    get("https://hackbulgaria.com/hackfmi/api/public-teams/")
-skills = requests.get("https://hackbulgaria.com/hackfmi/api/skills/")
+    get("https://hackbulgaria.com/hackfmi/api/public-teams/").json()
+skills = requests.get("https://hackbulgaria.com/hackfmi/api/skills/").json()

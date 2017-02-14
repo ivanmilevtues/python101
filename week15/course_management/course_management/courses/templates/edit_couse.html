@@ -23,5 +23,13 @@
         <p>Your lecture has been edited</p>
     {% endif %}
 </form>
+<div>
+    <h2>Lectures</h2>
+    <ul>
+        {% for lecture in lectures %}
+        <li><a href='/lecture/edit/{{lecture.id}}'>{{ lecture.name }}</a></li>
+        {% endfor %}
+    </ul>
+</div>
 </body>
 </html>

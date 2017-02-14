@@ -1,0 +1,14 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Profile</title>
+</head>
+<body>
+<form method="POST">
+{% csrf_token %}
+<input type="Submit" value="Log out" style="float: right;">    
+</form>
+<p>Name: {{user_information.first_name}} {{user_information.last_name}}</p>
+<p>Email: {{user_information.email}}</p>
+</body>
+</html>

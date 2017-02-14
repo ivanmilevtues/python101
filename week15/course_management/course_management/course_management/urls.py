@@ -1,3 +1,5 @@
+# TODO MAKE THE URLS INTO DIFFERENT FILES
+
 """course_management URL Configuration
 
 The `urlpatterns` list routes URLs to views. For more information please see:
@@ -17,8 +19,9 @@ from django.conf.urls import url
 from django.contrib import admin
 from courses import views as course_view
 from lecture import views as lecture_view
+from website import views as website_view
 
-
+# {% url 'courses:edit-lecture' lecture.id %}
 urlpatterns = [
     url(r'^admin/', admin.site.urls),
     url(r'^$', course_view.show_courses, name='show_courses'),
@@ -28,4 +31,7 @@ urlpatterns = [
     url(r'^lecture/new$', lecture_view.add_lecture, name='add_lecture'),
     url(r'^lecture/edit/(?P<lecture_id>\w+)/', lecture_view.edit_lecture),
     url(r'^lecture/(?P<lecture_id>\w+)/$', lecture_view.show_lectures),
-]
+    url(r'^register/$', website_view.register),
+    url(r'^login/$', website_view.login),
+    url(r'^profile/$', website_view.profile),
+    ]

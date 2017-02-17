@@ -1,23 +1,18 @@
 <!DOCTYPE html>
 <html>
 <head>
-    <title>Edit Lecture</title>
+    <title>Create Lecture</title>
 </head>
 <body>
 <form method="POST" action="">
     {% csrf_token %}
-    Name: <br>
-    <input type="text" name="name">
+    {% for field in form %}
     <br>
-    Course: <br>
-    <input type="text" name="course">
+    {{ field.label}}
     <br>
-    Week: <br>
-    <input type="text" placeholder='Week01' name="week">
+    {{ field }}
     <br>
-    URL: <br>
-    <input type="text" placeholder='www.smth.com' name="url">
-    <br>
+    {% endfor %}
     <input type="submit" value="Submit!">
     {% if object_added %}
         <p>Your lecture has been added</p>

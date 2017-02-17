@@ -8,6 +8,7 @@
 {% csrf_token %}
 <input type="Submit" value="Log out" style="float: right;">    
 </form>
+<p> {{ msg }} </p>
 <p>Name: {{user_information.first_name}} {{user_information.last_name}}</p>
 <p>Email: {{user_information.email}}</p>
 </body>

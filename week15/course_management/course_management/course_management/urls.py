@@ -31,7 +31,8 @@ urlpatterns = [
     url(r'^lecture/new$', lecture_view.add_lecture, name='add_lecture'),
     url(r'^lecture/edit/(?P<lecture_id>\w+)/', lecture_view.edit_lecture),
     url(r'^lecture/(?P<lecture_id>\w+)/$', lecture_view.show_lectures),
-    url(r'^register/$', website_view.register),
-    url(r'^login/$', website_view.login),
+    url(r'^register/$', website_view.register, name='register'),
+    url(r'^login/$', website_view.login, name='login'),
     url(r'^profile/$', website_view.profile),
+    url(r'^promote/$', website_view.promote_user),
     ]

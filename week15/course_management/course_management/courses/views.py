@@ -1,5 +1,9 @@
 from django.shortcuts import render
+
 from courses.models import Course
+from courses.forms import EditCourseForm
+from courses.forms2 import CreateCourseForm
+from website.decorators import teacher_persmission
 from lecture.models import Lecture
 
 
@@ -8,15 +12,14 @@ def show_courses(request):
     return render(request, 'show_courses.html', locals())
 
 
+@teacher_persmission
 def add_course(request):
     if request.method == "POST":
-        name = request.POST["course_name"]
-        description = request.POST["description"]
-        start_date = request.POST["start_date"]
-        end_date = request.POST["end_date"]
-        Course.objects.create(name=name, description=description,
-                              start_date=start_date, end_date=end_date)
+        form = CreateCourseForm(request.POST)
+        if form.is_valid():
+            form.save()
         object_added = True
+    form = CreateCourseForm()
     return render(request, 'create_form.html', locals())
 
 
@@ -27,20 +30,23 @@ def show_course(request, **params):
     return render(request, 'show_course.html', locals())
 
 
+@teacher_persmission
 def edit_course(request, **params):
     course = Course.objects.filter(name=params['course_name']).first()
-    # Add lecture edit!!
-    # use lecture.id as name to change but see what needs to be changed
     lectures = Lecture.objects.filter(course=course)
     if request.method == 'GET':
+        form = EditCourseForm()
         return render(request, 'edit_couse.html', locals())
     elif request.method == 'POST':
-        if request.POST['course_name']:
-            course.name = request.POST['course_name']
-        if request.POST['description']:
-            course.description = request.POST['description']
-        if request.POST['start_date']:
-            course.start_date = request.POST['start_date']
-        if request.POST['end_date']:
-            course.end_date = request.POST['end_date']
+        form = EditCourseForm(request.POST)
+        if form.is_valid():
+            if form.cleaned_data['course_name']:
+                course.name = form.cleaned_data['course_name']
+            if form.cleaned_data['description']:
+                course.description = form.cleaned_data['description']
+            if form.cleaned_data['start_date']:
+                course.start_date = form.cleaned_data['start_date']
+            if form.cleaned_data['end_date']:
+                course.end_date = form.cleaned_data['end_date']
+            course.save()
     return render(request, 'edit_couse.html', locals())

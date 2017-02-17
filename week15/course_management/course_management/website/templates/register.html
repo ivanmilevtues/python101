@@ -4,23 +4,18 @@
     <title>Register</title>
 </head>
 <body>
-<form method="POST">
+<form method="POST" action="">
     {% csrf_token %}
-    Register:
-    <br/>
-    Email:
-    <br/>
-    <input type="email" name="email">
-    <br/>
-    Name:
-    <br/>
-    <input type="text" placeholder="Petyr Petrov" name="name">
-    <br/>
-    Password:
-    <br/>
-    <input type="password" name="password">
-    <br/>
-    <input type="submit" value="Submit">
+    {% for field in form %}
+    <br>
+    {{ field.label }}
+    <br>
+    {{ field }}
+    {% endfor %}
+    <br>
+    <input type="Submit" value="LogIn">
+</form>
+<p>{{ error }}</p>
 </form>
 </body>
 </html>

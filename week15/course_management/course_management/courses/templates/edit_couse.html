@@ -4,26 +4,11 @@
     <title>Edit Course</title>
 </head>
 <body>
-<form method="POST" action="">
-    {% csrf_token %}
-    Current course name: {{ course.name }} <br>
-    <input type="text" name="course_name">
-    <br>
-    Current description: {{ course.description }} <br>
-    <input type="text" name="description">
-    <br>
-    Current start date: {{ course.start_date }} <br>
-    <input type="date" name="start_date">
-    <br>
-    Current end date: {{ course.end_date }} <br>
-    <input type="date" name="end_date">
-    <br>
-    <input type="submit" value="Submit!">
-    {% if object_added %}
-        <p>Your lecture has been edited</p>
-    {% endif %}
-</form>
-<div>
+    <h1>Course Name: {{ course.name }}</h1>
+    <p>Desctiption: {{ course.description }}</p>
+    <p>Start Time: {{ course.start_date }}</p>
+    <p>End Time: {{ course.end_date }}</p>
+    <p>Duration: {{ course.duration }}</p>
     <h2>Lectures</h2>
     <ul>
         {% for lecture in lectures %}
@@ -31,5 +16,19 @@
         {% endfor %}
     </ul>
 </div>
+<form method="POST" action="">
+    {% csrf_token %}
+    {% for field in form%}
+    <br>
+    {{ field.label }}
+    <br>
+    {{ field }}
+    <br>
+    {% endfor %}
+    <input type='submit' value="Submit">
+    {% if object_added %}
+        <p>Your lecture has been edited</p>
+    {% endif %}
+</form>
 </body>
 </html>
